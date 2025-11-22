@@ -31,3 +31,7 @@ body {
   color: var(--color-accent-1);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  font-family: "cormorant", serif;
+}
