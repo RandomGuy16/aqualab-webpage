@@ -2,7 +2,7 @@
 
 async function getParameters(): Promise<AquariumRequest> {
   try {
-    const response = await fetch("https://us-central1-aqualab-b1032.cloudfunctions.net/api/getLast?limit=10")
+    const response = await fetch("/api/getlast")
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}\nResponse message: ${response.statusText}`)
     }

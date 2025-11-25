@@ -2,24 +2,42 @@
 import { useState, useEffect } from "react"
 import { getParameters } from "@/app/monitor/requests"
 import AquariumParametersGraph from "./ParametersGraph"
+import { Cormorant } from "next/font/google";
 
+const cormorant = Cormorant({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-cormorant",
+});
 
 export default function Monitor() {
   const [aquariumRequest, setAquariumRequest] = useState<AquariumRequest>({
-    parametersArray: [
-      // Add more EspParameters as needed
-    ],
+    parametersArray: []
   })
 
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
+  const handleGetAquariumRequest = async () => {
+    try {
       const newParameters = await getParameters()
+      const parametersArr = []
 
       for (let i in newParameters) {
-        console.log(newParameters[i])
+        parametersArr.push(newParameters[i])
       }
+      setAquariumRequest({
+        parametersArray: parametersArr
+      })
+    } catch (error) {
+      console.error(error)
+      setAquariumRequest({
+        parametersArray: []
+      })
+    }
+  }
 
-      setAquariumRequest(newParameters)
+  useEffect(() => {
+    handleGetAquariumRequest()
+    const intervalId = setInterval(async () => {
+      handleGetAquariumRequest()
     }, 5000)
 
     return () => clearInterval(intervalId)
@@ -28,16 +46,17 @@ export default function Monitor() {
   return (
     <>
       <main className="flex flex-1 flex-col items-center justify-start min-h-screen bg-cover bg-center">
-        <div className="flex flex-row min-h-16 w-full p-8 items-center justify-center bg-colorBg1 dark:bg-black sm:items-start">
-          <div className="max-w-3xl sm:items-start">
-            <h1 className="max-w-3xl text-4xl text-center font-semibold leading-10 tracking-tight text-colorAccent1 dark:text-colorAccent2">
+        <div className="relative flex flex-row min-h-16 w-full h-48 bg-[url('/acuaponia_iot_fz.jpg')] bg-cover bg-center p-8 items-center justify-center bg-colorBg1 dark:bg-black sm:items-start">
+          <div className="absolute inset-0 bg-black/25" />
+          <div className="relative select-none x-10 max-w-3xl sm:items-start text-center text-colorBg1 dark:text-(--bg-2)">
+            <h1 className={`max-w-3xl text-4xl leading-10 tracking-tight ${cormorant.variable} font-bold`}>
               P&aacute;gina de monitoreo
             </h1>
             <br />
-            <p>Los par&aacute;metros en tiempo real del acuario :)</p>
+            <p>Los par&aacute;metros en tiempo real del cultivo acuap&oacute;nico</p>
           </div>
         </div>
-        <div className="flex flex-1 flex-col w-full items-center justify-start">
+        <div className="flex flex-1 flex-col w-full items-center justify-start bg-(--bg-1)">
           <div className="flex flex-1 flex-col w-full lg:w-3/4 p-8 rounded-2">
             <AquariumParametersGraph parametersArray={aquariumRequest.parametersArray} />
           </div>

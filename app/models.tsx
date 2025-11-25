@@ -8,7 +8,7 @@ interface EspParameters {
   distancia_cm: Number,
   humedad: Number,
   ph: Number,
-  rele_estado: Number,
+  rele_estado: String,
   tds_ppm: Number,
   temperatura_aire: Number,
   timestamp: Date
