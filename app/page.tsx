@@ -1,60 +1,71 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client"
+import { useState, useEffect } from "react"
+import { getParameters } from "@/app/requests"
+import AquariumParametersGraph from "@/app/ParametersGraph"
+import { Cormorant } from "next/font/google";
+import { AquariumRequest } from "@/app/models"
 
-export default function Home() {
+const cormorant = Cormorant({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-cormorant",
+});
+
+export default function Monitor() {
+  const [aquariumRequest, setAquariumRequest] = useState<AquariumRequest>({
+    parametersArray: []
+  })
+
+  const handleGetAquariumRequest = async () => {
+    try {
+      const newParameters = await getParameters()
+      const parametersArr = []
+
+      for (let i in newParameters) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        parametersArr.push(newParameters[i])
+      }
+      setAquariumRequest({
+        parametersArray: parametersArr
+      })
+    } catch (error) {
+      console.error(error)
+      setAquariumRequest({
+        parametersArray: []
+      })
+    }
+  }
+
+  useEffect(() => {
+    handleGetAquariumRequest()
+    const intervalId = setInterval(async () => {
+      handleGetAquariumRequest()
+    }, 5000)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
   return (
-    <main className="flex flex-1 flex-col items-center justify-start min-h-screen bg-cover bg-center">
-      <div className="flex flex-row min-h-16 w-full py-16 px-8 items-center justify-center bg-white dark:bg-black sm:items-start">
-        <div className="max-w-3xl bg-white dark:bg-black sm:items-start">
-          <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-            <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-              Acuaponía automatizada para la calidad de los alimentos
+    <>
+      <main className="flex flex-1 flex-col items-center justify-start min-h-screen bg-cover bg-center">
+        <div className="relative flex flex-row min-h-16 w-full h-48 bg-[url('/acuaponia_iot_fz.jpg')] bg-cover bg-center p-8 items-center justify-center bg-colorBg1 dark:bg-black sm:items-start">
+          <div className="absolute inset-0 bg-black/25" />
+          <div className="relative select-none x-10 max-w-3xl sm:items-start text-center text-colorBg1 dark:text-(--bg-2)">
+            <h1 className={`max-w-3xl text-4xl leading-10 tracking-tight ${cormorant.variable} font-bold`}>
+              P&aacute;gina de monitoreo
             </h1>
-            <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              Looking for a starting point or more instructions? Head over to{" "}
-              <a
-                href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                className="font-medium text-zinc-950 dark:text-zinc-50"
-              >
-                Templates
-              </a>{" "}
-              or the{" "}
-              <a
-                href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                className="font-medium text-zinc-950 dark:text-zinc-50"
-              >
-                Learning
-              </a>{" "}
-              center.
-            </p>
-          </div>
-          <div className="flex flex-col w-fit mt-4 gap-4 text-base font-medium sm:flex-row">
-            <Link
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
-              href="/monitor"
-              target=""
-              rel="noopener noreferrer"
-            >
-              <Image
-                className="dark:invert"
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={16}
-                height={16}
-              />
-              Click aqu&iacute; para monitorear
-            </Link>
+            <br />
+            <p>Los par&aacute;metros en tiempo real del cultivo acuap&oacute;nico</p>
           </div>
         </div>
-        <div className="w-80 h-80 bg-white">
-          <Image
-            className="dark:invert"
-            src="/vercel.svg"
-            alt="Vercel logomark"
-            width={64}
-            height={64}
-          /></div>
-      </div>
-    </main>
-  );
+        <div className="flex flex-1 flex-col w-full items-center justify-start bg-(--bg-1)">
+          <div className="flex flex-1 flex-col w-full lg:w-3/4 p-8 rounded-2">
+            <AquariumParametersGraph parametersArray={aquariumRequest.parametersArray} />
+          </div>
+        </div>
+      </main>
+    </>
+  )
 }
+
