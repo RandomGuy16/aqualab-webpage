@@ -54,7 +54,7 @@ function ParameterGraph(
           <YAxis />
           <Tooltip />
           <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-          <Line type="monotone" dataKey={dataKey} stroke={strokeColor} dot={false} />
+          <Line type="monotone" dataKey={dataKey.toString()} stroke={strokeColor.toString()} dot={false} />
         </LineChart>
       </div>
     </div>

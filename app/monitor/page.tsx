@@ -21,6 +21,8 @@ export default function Monitor() {
       const parametersArr = []
 
       for (let i in newParameters) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         parametersArr.push(newParameters[i])
       }
       setAquariumRequest({
