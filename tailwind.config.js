@@ -18,6 +18,9 @@ module.exports = {
       fontFamily: {
         sans: ["Roboto", "Arial", "sans-serif"],
       },
+      backgroundImage: {
+        'hero': "url('/acuaponia_iot_fz.jpg')",
+      },
       // You can add more custom extensions here, like screens, spacing, etc.
     },
   },

@@ -5,11 +5,12 @@ interface AquariumRequest {
 }
 
 interface EspParameters {
-  ph: Number
-  temperatura: Number
-  altura: Number
-  conductividadElectrica: Number
-  tds: Number
+  distancia_cm: Number,
+  humedad: Number,
+  ph: Number,
+  rele_estado: String,
+  tds_ppm: Number,
+  temperatura_aire: Number,
   timestamp: Date
 }
 

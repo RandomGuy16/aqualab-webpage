@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {Header} from "@/app/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen antialiased`}
       >
-        <header className="flex justify-between items-center w-full h-20 px-4 py-2
+        {/*<header className="flex justify-between items-center w-full h-20 px-4 py-2
           bg-colorBgHeader dark:bg-colorBgHeader text-colorAccent1 dark:text-colorAccent2
           border-solid border-colorAccent1 dark:border-colorAccent2 border-b-1">
           <Link
@@ -45,11 +46,12 @@ export default function RootLayout({
               <button>monitor</button>
             </nav>
           </div>
-        </header>
+        </header>*/}
+        <Header />
         {children}
-        <footer className="w-full h-12 px-4 py-2 bg-teal-100 dark:bg-teal-900 text-black dark:text-white">
+        {/*<footer className="w-full h-12 px-4 py-2 bg-teal-100 dark:bg-teal-900 text-black dark:text-white">
           Aqualab
-        </footer>
+        </footer>*/}
       </body>
     </html>
   );
