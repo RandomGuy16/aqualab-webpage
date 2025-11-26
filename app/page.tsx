@@ -79,7 +79,7 @@ export default function Monitor() {
     handleGetAquariumRequest()
     const intervalId = setInterval(async () => {
       handleGetAquariumRequest()
-    }, 5000)
+    }, 2000)
 
     return () => clearInterval(intervalId)
   }, [])

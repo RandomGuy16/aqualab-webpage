@@ -56,7 +56,7 @@ function ParameterGraph(
       </div>
       <div>
         <LineChart width={getWidth()} height={getHeight()} data={parametersArray}>
-          <XAxis dataKey="timestamp" tick={false} axisLine={true} label={xAxisLabel} />
+          <XAxis dataKey="timestamp" tick={false} axisLine={true} label={xAxisLabel} reversed={true} />
           <YAxis />
           <Tooltip content={ParameterGraphTooltip} />
           <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
@@ -104,8 +104,8 @@ export default function AquariumParametersGraph({ parametersArray }: AquariumReq
         parameterLabel={"Altura del agua en la pecera (cm)"}
         parameterDescription={"Mide qué tan lleno está el tanque. Cuando se acerca al límite, indica riesgo de rebalse y necesidad de ajuste."}
         xAxisLabel={"Altura del agua antes de revalsar"}
-        minRecommended={10}
-        maxRecommended={40}
+        minRecommended={0}
+        maxRecommended={0}
       />
       <hr />
       <ParameterGraph
@@ -126,7 +126,7 @@ export default function AquariumParametersGraph({ parametersArray }: AquariumReq
         parameterLabel={"PH en el agua"}
         parameterDescription={"Indica qué tan ácida o alcalina está el agua. Mantener un pH estable es clave para la salud de peces y plantas."}
         xAxisLabel={"PH en el agua"}
-        minRecommended={6.5}
+        minRecommended={6.0}
         maxRecommended={7.5}
       />
       <hr />
@@ -137,8 +137,8 @@ export default function AquariumParametersGraph({ parametersArray }: AquariumReq
         parameterLabel={"TDS en el agua (ppm)"}
         parameterDescription={"Muestra la concentración de sólidos disueltos. Un valor fuera de rango puede indicar acumulación de nutrientes o contaminación."}
         xAxisLabel={"TDS en el agua"}
-        minRecommended={1300}
-        maxRecommended={1500}
+        minRecommended={300}
+        maxRecommended={800}
       />
       <hr />
       <ParameterGraph
