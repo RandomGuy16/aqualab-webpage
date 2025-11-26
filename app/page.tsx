@@ -52,11 +52,11 @@ export default function Monitor() {
         <div className="relative flex flex-row min-h-16 w-full h-48 bg-[url('/acuaponia_iot_fz.jpg')] bg-cover bg-center p-8 items-center justify-center bg-colorBg1 dark:bg-black sm:items-start">
           <div className="absolute inset-0 bg-black/25" />
           <div className="relative select-none x-10 max-w-3xl sm:items-start text-center text-colorBg1 dark:text-(--bg-2)">
-            <h1 className={`max-w-3xl text-4xl leading-10 tracking-tight ${cormorant.variable} font-bold`}>
+            <h1 className={`max-w-3xl text-4xl drop-shadow-xl leading-10 tracking-tight ${cormorant.variable} font-bold`}>
               P&aacute;gina de monitoreo
             </h1>
             <br />
-            <p>Los par&aacute;metros en tiempo real del cultivo acuap&oacute;nico</p>
+            <p className="text-shadow-lg">Los par&aacute;metros en tiempo real del cultivo acuap&oacute;nico</p>
           </div>
         </div>
         <div className="flex flex-1 flex-col w-full items-center justify-start bg-(--bg-1)">
