@@ -58,7 +58,7 @@ function ParameterGraph(
         <LineChart width={getWidth()} height={getHeight()} data={parametersArray}>
           <XAxis dataKey="timestamp" tick={false} axisLine={true} label={xAxisLabel} />
           <YAxis />
-          <Tooltip content={ParameterGraphTooltip}/>
+          <Tooltip content={ParameterGraphTooltip} />
           <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
           <Line type="monotone" dataKey={dataKey.toString()} stroke={strokeColor.toString()} dot={false} />
 

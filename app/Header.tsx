@@ -36,9 +36,9 @@ export function Header() {
             <Link
               key={item.label}
               href={item.href}
-              className={`hover:underline ${
-                item.active ? "underline" : ""
-              }`}
+              target="_blank"
+              className={`hover:underline ${item.active ? "underline" : ""
+                }`}
             >
               {item.label}
             </Link>

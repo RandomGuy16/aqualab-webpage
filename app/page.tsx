@@ -3,7 +3,8 @@ import { useState, useEffect } from "react"
 import { getParameters } from "@/app/requests"
 import AquariumParametersGraph from "@/app/ParametersGraph"
 import { Cormorant } from "next/font/google";
-import { AquariumRequest } from "@/app/models"
+import { AquariumRequest, EspParameters } from "@/app/models"
+import { requestNotificationPermission, sendNotification } from "./notifications";
 
 const cormorant = Cormorant({
   subsets: ["latin"],
@@ -15,17 +16,54 @@ export default function Monitor() {
   const [aquariumRequest, setAquariumRequest] = useState<AquariumRequest>({
     parametersArray: []
   })
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>("default")
+  const [notifiedTds, setNotifiedTds] = useState<boolean>(false)
+  const [notifiedPh, setNotifiedPh] = useState<boolean>(false)
+  const [notifiedTemperature, setNotifiedTemperature] = useState<boolean>(false)
+
+  // request notification permission
+  useEffect(() => {
+    const foo = async () => {
+      if ("Notification" in window) {
+        await requestNotificationPermission()
+        setNotificationPermission(Notification.permission);
+      }
+    }
+    foo()
+  }, [])
 
   const handleGetAquariumRequest = async () => {
     try {
       const newParameters = await getParameters()
-      const parametersArr = []
+      const parametersArr: EspParameters[] = []
 
       for (let i in newParameters) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         parametersArr.push(newParameters[i])
       }
+
+      // check to send a notification
+      if (!notifiedTemperature &&
+        (22 > parametersArr[0]?.temperatura_aire || parametersArr[0]?.temperatura_aire > 30)
+      ) {
+        sendNotification("Aqualab: Temperatura anormal!", { body: "La temperatura no esta en el rango adecuado" })
+        setNotifiedTemperature(true)
+      } else setNotifiedTemperature(false)
+
+      if (!notifiedPh &&
+        (6.5 > parametersArr[0]?.ph || parametersArr[0]?.ph > 7.5)
+      ) {
+        sendNotification("Aqualab: PH anormal en el agua!", { body: "El PH no esta en el rango adecuado" })
+        setNotifiedPh(true)
+      } else setNotifiedPh(false)
+
+      if (!notifiedTds &&
+        (1300 > parametersArr[0]?.tds_ppm || parametersArr[0]?.tds_ppm > 1500)) {
+        sendNotification("Aqualab: TDS anormal en el agua!", { body: "El TDS no esta en el rango adecuado" })
+        setNotifiedTds(true)
+      } else setNotifiedTds(false)
+
       setAquariumRequest({
         parametersArray: parametersArr
       })

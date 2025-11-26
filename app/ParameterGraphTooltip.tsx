@@ -8,7 +8,7 @@ const formatTimestamp = (timestamp: string | number | undefined): string => {
   const date = new Date(timestampNum * 1000);
 
   return date.toLocaleString('es-PE', {
-    year: 'numeric',
+    // year: 'numeric',
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
